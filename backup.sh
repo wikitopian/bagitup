@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Find and read the config
-
 CONFIG_FILE=$HOME/.backuprc
+
+# Find the config file
 
 while getopts ":f" opt; do
     case $opt in
@@ -16,4 +16,13 @@ while getopts ":f" opt; do
     esac
 done
 
-echo $CONFIG_FILE
+# Read the config file
+
+source $CONFIG_FILE
+
+for i in "${!Host[@]}"
+do
+    echo "Backing up ${Host[$i]}..."
+
+    source "./includes/backup-rsync.sh"
+done

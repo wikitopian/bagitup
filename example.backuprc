@@ -1,1 +1,11 @@
+#!/bin/bash
+# Array level zero is default
 
+LocalDir="./backup-archive"
+Type[0]="rsync"
+Output[0]="/dev/stdout"
+
+Host[1]="myalias"
+SqlHost[1]="localhost"
+SqlUser[1]="myusername"
+SqlPass[1]="dbpass"
