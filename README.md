@@ -54,11 +54,15 @@ server. After you're done marveling, type `exit` to return to your box.
 
 ## Installing
 
-* Make the script executable
+* Download it
 
-1. Change (cd) to the script's directory, perhaps `~/backup/`.
+** If you're down with *git*...
 
-2. Make the scripts executable: `chmod +x *.sh`
+    `git clone git@github.com:wikitopian/backup.git`
+
+** If you're not, just download it and unzip it...
+
+    `wget https://github.com/wikitopian/backup/archive/master.zip`
 
 ## Configuring
 
