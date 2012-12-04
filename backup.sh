@@ -17,7 +17,7 @@ while getopts ":f" opt; do
 done
 
 # Set global defaults
-LocalDir="./backup-archive"
+LocalDir[0]="./backup-archive"
 RemoteDir[0]="~"
 RemoteBackupDir[0]="~/backup"
 Type[0]="rsync"
@@ -63,23 +63,7 @@ do
 
     case ${Type[$i]} in
         "rsync")
-            echo "Connecting: ${SqlHost[$i]}::${SqlUser[$i]}::${RemoteBackupDir[$i]} --> ${LocalDir[$i]}"
-
-            ssh ${Host[$i]} "mkdir -p ${RemoteBackupDir[$i]}"
-            ssh ${Host[$i]} "rm -f ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.tar.gz"
-            ssh ${Host[$i]} "rm -f ${RemoteBackupDir[$i]}/${Host[$i]}-file-backup.tar.gz"
-
-            ssh ${Host[$i]} "mysqldump --host=${SqlHost[$i]} --user=${SqlUser[$i]} --password=${SqlPass[$i]} --all-databases > ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.sql"
-            ssh ${Host[$i]} "gzip=\"--rsyncable\" tar zcvf ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.tar.gz ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.sql"
-            ssh ${Host[$i]} "rm -f ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.sql"
-
-            ssh ${Host[$i]} "gzip=\"--rsyncable\" tar zcvf ${RemoteBackupDir[$i]}/${Host[$i]}-file-backup.tar.gz ${RemoteDir[$i]}"
-
-            ssh ${Host[$i]} "rm -f ${RemoteBackupDir[$i]}/${Host[$i]}-file-backup.tar"
-
-            mkdir -p ${LocalDir[$i]}/${Host[$i]}
-            rsync -avz --delete --progress -e ssh ${Host[$i]}:${RemoteBackupDir[$i]} ${LocalDir[$i]}/${Host[$i]}
-
+            source "includes/backup-rsync.sh"
             ;;
         "sshfs")
             ;;
