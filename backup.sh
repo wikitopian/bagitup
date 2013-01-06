@@ -18,10 +18,9 @@ done
 
 # Set global defaults
 LocalDir[0]="./backup-archive"
-RemoteDir[0]="~"
+MountDir[0]="$HOME/mnt"
+RemoteDir[0]="public_html"
 RemoteBackupDir[0]="~/backup"
-Type[0]="rsync"
-Output[0]="/dev/stdout"
 SqlHost[0]="localhost"
 
 # Read the config file
@@ -36,6 +35,11 @@ do
         LocalDir[$i]="${LocalDir[0]}"
     fi
 
+    if [[ -z "${MountDir[$i]}" ]]
+    then
+        MountDir[$i]="${MountDir[0]}/${Host[$i]}"
+    fi
+
     if [[ -z "${RemoteDir[$i]}" ]]
     then
         RemoteDir[$i]="${RemoteDir[0]}"
@@ -45,30 +49,25 @@ do
     then
         RemoteBackupDir[$i]="${RemoteBackupDir[0]}"
     fi
-
-    if [[ -z "${Type[$i]}" ]]
-    then
-        Type[$i]="${Type[0]}"
-    fi
-
-    if [[ -z "${Output[$i]}" ]]
-    then
-        Output[$i]="${Output[0]}"
-    fi
-
     if [[ -z "${SqlHost[$i]}" ]]
     then
         SqlHost[$i]="${SqlHost[0]}"
     fi
 
-    case ${Type[$i]} in
-        "rsync")
-            source "includes/backup-rsync.sh"
-            ;;
-        "sshfs")
-            ;;
-        *)
-            echo "Invalid host type"
-            ;;
-    esac
+    echo "Connecting: ${SqlHost[$i]}::${SqlUser[$i]}::${RemoteBackupDir[$i]} --> ${LocalDir[$i]}"
+
+    mkdir -p ${MountDir[$i]}
+    mkdir -p ${LocalDir[$i]}/${Host[$i]}/local/file
+    mkdir -p ${LocalDir[$i]}/${Host[$i]}/local/data
+
+    ssh ${Host[$i]} "mysqldump --host=${SqlHost[$i]} --user=${SqlUser[$i]} --password=${SqlPass[$i]} --all-databases > ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.sql"
+
+    sshfs ${Host[$i]}: ${MountDir[$i]}
+    sshfs ${Host[$i]}: ${MountDir[$i]}
+
+    rsync -avz ${MountDir[$i]}/${RemoteDir[$i]} ${LocalDir[$i]}/${Host[$i]}/local/file
+    rsync -avz ${MountDir[$i]}/${RemoteDir[$i]} ${LocalDir[$i]}/${Host[$i]}/local/data
+
+    fusermount -u ${MountDir[$i]}
+
 done
