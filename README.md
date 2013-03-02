@@ -1,16 +1,22 @@
 # Examples
-This is my script for automatically backing up my websites.
+This is a generic website backup script, with the twist being that
+it creates a versioned repository of file list modifications, so that one
+can track the appearance, growth, and disappearance of files.
+
+It does not git the entire database or filesystem. That would be madness.
 
 ## General Requirements
 
+### [git](http://git-scm.com/downloads)
+
+If in a Debian/Ubuntu-style distro: `sudo apt-get install git`
+
 ### [rsync](http://rsync.samba.org/)
-You'll need this installed locally for both *rsync* and *sshfs* mode.
-You'll need this installed both locally and remotely for *rsync* mode
+Don't worry about installing this remotely.
 
 If in a Debian/Ubuntu-style distro: `sudo apt-get install rsync`
 
 ### [sshfs](http://fuse.sourceforge.net/sshfs.html)
-You'll need this installed locally for *sshfs* mode.
 
 If in a Debian/Ubuntu-style distro: `sudo apt-get install sshfs`
 
@@ -58,7 +64,7 @@ server. After you're done marveling, type `exit` to return to your box.
 
 ** If you're down with *git*...
 
-    `git clone git@github.com:wikitopian/backup.git`
+    `git clone git@github.com:wikitopian/bagitup.git`
 
 ** If you're not, just download it and unzip it...
 
@@ -66,13 +72,13 @@ server. After you're done marveling, type `exit` to return to your box.
 
 ## Configuring
 
-### example.backuprc
-This is what you will edit and paste into your home folder as `.backuprc` to
+### example.bagituprc
+This is what you will edit and paste into your home folder as `.bagituprc` to
 include your specific servers.
 
 ## Running
 
-* Execute the `backup.sh` script.
+* Execute the `bagitup.sh` script.
 
 ## Known issues
 None, ...yet.

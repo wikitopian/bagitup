@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE=$HOME/.backuprc
+CONFIG_FILE=$HOME/.bagituprc
 
 # Find the config file
 
@@ -17,10 +17,10 @@ while getopts ":f" opt; do
 done
 
 # Set global defaults
-LocalDir[0]="./backup-archive"
+LocalDir[0]="./bagitup-archive"
 MountDir[0]="$HOME/mnt"
 RemoteDir[0]="public_html"
-RemoteBackupDir[0]="~/backup"
+RemoteBackupDir[0]="~/bagitup"
 SqlHost[0]="localhost"
 
 # Read the config file
