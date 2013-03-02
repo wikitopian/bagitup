@@ -62,8 +62,8 @@ do
 
     ssh ${Host[$i]} "mysqldump --host=${SqlHost[$i]} --user=${SqlUser[$i]} --password=${SqlPass[$i]} --all-databases > ${RemoteBackupDir[$i]}/${Host[$i]}-data-backup.sql"
 
-    sshfs ${Host[$i]}: ${MountDir[$i]}
-    sshfs ${Host[$i]}: ${MountDir[$i]}
+    sshfs -C ${Host[$i]}: ${MountDir[$i]}
+    sshfs -C ${Host[$i]}: ${MountDir[$i]}
 
     rsync -avz ${MountDir[$i]}/${RemoteDir[$i]} ${LocalDir[$i]}/${Host[$i]}/local/file
     rsync -avz ${MountDir[$i]}/${RemoteDir[$i]} ${LocalDir[$i]}/${Host[$i]}/local/data
