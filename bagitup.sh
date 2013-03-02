@@ -71,8 +71,8 @@ do
     
     fusermount -u ${MountDir[$i]}
 
-    find ${LocalDir[$i]}/${Host[$i]}/local/file -type f -print0 | xargs -0 du -s | sort > ${Repo[$i]}/${Host[$i]}.txt
-    git --work-tree=${Repo[$i]} add ${Repo[$i]}/${Host[$i]}.txt
-    git commit -m "Modified: ${Host[$i]}"
+    find ${LocalDir[$i]}/${Host[$i]}/local/file -type f -print0 | xargs -0 du -s | sort > ${Repo[0]}/${Host[$i]}.txt
+    git --work-tree=${Repo[0]} --git-dir=${Repo[0]}/.git add    ${Repo[0]}/${Host[$i]}.txt
+    git --work-tree=${Repo[0]} --git-dir=${Repo[0]}/.git commit -m "Modified: ${Host[$i]}"
 
 done
