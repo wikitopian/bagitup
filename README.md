@@ -35,25 +35,25 @@ Now you can type `ssh myalias` instead of `ssh myusername@myhost.com`.
 
 #### 2. Next, ditch the password. Make yourself a pair of public and private keys.
 
-    `ssh key-gen -t rsa`
+    ssh key-gen -t rsa
 
 Stick with the default options.
 
 #### 3. Create the remote `.ssh` folder if it's not already there.
 
-    `ssh myalias mkdir -p ~/.ssh`
+    ssh myalias mkdir -p ~/.ssh
 
 You'll be prompted for your password. That's okay.
 
 #### 4. Append your public key to `authorized_keys` on the remote `.ssh` folder
 
-    `cat ~/.ssh/id_rsa.pub | ssh myalias 'cat >> .ssh/authorized_keys'`
+    cat ~/.ssh/id_rsa.pub | ssh myalias 'cat >> .ssh/authorized_keys'
 
 You'll be prompted for your password again. Hopefully for the last time.
 
 #### 5. Test it.
 
-    `ssh myalias`
+    ssh myalias
 
 If you did it right, you should have automatically logged in to the remote
 server. After you're done marveling, type `exit` to return to your box.
@@ -64,19 +64,36 @@ server. After you're done marveling, type `exit` to return to your box.
 
 ** If you're down with *git*...
 
-    `git clone git@github.com:wikitopian/bagitup.git`
+    git clone git@github.com:wikitopian/bagitup.git
 
 ** If you're not, just download it and unzip it...
 
-    `wget https://github.com/wikitopian/backup/archive/master.zip`
+    wget https://github.com/wikitopian/backup/archive/master.zip
 
 ## Configuring
 
-### example.bagituprc
+#### 1. Edit example.bagituprc
+
 This is what you will edit and paste into your home folder as `.bagituprc` to
 include your specific servers.
 
-## Running
+#### 2. Ensure you have the database permissions
+
+The most secure way to go about this is to create a special user which does not
+have `TRUNCATE`, `DELETE`, `UPDATE`, or `INSERT` permission.
+
+#### 3. Ensure you have the database permissions
+
+Create a git repository at the location corresponding with the Repo[0] variable.
+
+    mkdir -p /home/matt/repo/backups
+    cd /home/matt/repo/backups
+    git init
+
+Note: You can't use relative references to the location.
+Use `/home/matt/`, not `~`.
+
+#### 4. Execute it
 
 * Execute the `bagitup.sh` script.
 
