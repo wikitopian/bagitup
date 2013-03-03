@@ -22,7 +22,6 @@ MountDir[0]="$HOME/mnt"
 RemoteDir[0]="public_html"
 RemoteBackupDir[0]="bagitup"
 SqlHost[0]="localhost"
-Repo[0]="~/repo/backups"
 
 # Read the config file
 source $CONFIG_FILE
@@ -71,8 +70,8 @@ do
     
     fusermount -u ${MountDir[$i]}
 
-    find ${LocalDir[$i]}/${Host[$i]}/local/file -type f -print0 | xargs -0 du -s | sort > ${Repo[0]}/${Host[$i]}.txt
-    git --work-tree=${Repo[0]} --git-dir=${Repo[0]}/.git add    ${Repo[0]}/${Host[$i]}.txt
-    git --work-tree=${Repo[0]} --git-dir=${Repo[0]}/.git commit -m "Modified: ${Host[$i]}"
+    find ${LocalDir[$i]}/${Host[$i]}/local/file -type f -print0 | xargs -0 du -s | sort > ${Repo}/${Host[$i]}.txt
+    git --work-tree=${Repo} --git-dir=${Repo}/.git add    ${Repo}/${Host[$i]}.txt
+    git --work-tree=${Repo} --git-dir=${Repo}/.git commit -m "Modified: ${Host[$i]}"
 
 done

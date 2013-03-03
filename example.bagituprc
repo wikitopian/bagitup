@@ -2,6 +2,7 @@
 # Array level zero is default
 
 LocalDir="./backup-archive"
+Repo="/home/matt/repo/backups"
 Type[0]="rsync"
 Output[0]="/dev/stdout"
 
