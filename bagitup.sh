@@ -70,7 +70,13 @@ do
     
     fusermount -u ${MountDir[$i]}
 
-    find ${LocalDir[$i]}/${Host[$i]}/local/file -type f -print0 | xargs -0 du -s | sort > ${Repo}/${Host[$i]}.txt
+    find ${LocalDir[$i]}/${Host[$i]}/local/file -type f -print0 \
+	    | xargs -0 du -s \
+	    | sed 's/^\([^\s]\+\)\s\+\(.*\)/\2\t\1/' \
+	    | sort \
+	    | sed 's/^\([^\t]\)\t\(.*\)/\2\t\1/' \
+	    > ${Repo}/${Host[$i]}.txt
+
     git --work-tree=${Repo} --git-dir=${Repo}/.git add    ${Repo}/${Host[$i]}.txt
     git --work-tree=${Repo} --git-dir=${Repo}/.git commit -m "Modified: ${Host[$i]}"
 
