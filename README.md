@@ -1,4 +1,4 @@
-# Examples
+# Introduction
 This is a generic website backup script, with the twist being that
 it creates a versioned repository of file list modifications, so that one
 can track the appearance, growth, and disappearance of files.
